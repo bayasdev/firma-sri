@@ -20,7 +20,7 @@ certificate.holder; // { ruc: "1792146739001" }
 ```
 
 - **Escrita desde las especificaciones.** La ficha técnica del SRI, XMLDSig, XAdES 1.3.2, Canonical XML 1.0 y RFC 4514, citadas junto al código.
-- **Los seis comprobantes.** Factura, liquidación de compra, nota de crédito, nota de débito, guía de remisión y comprobante de retención. El SRI autorizó este perfil de firma en su ambiente de pruebas para los seis.
+- **Los seis comprobantes.** Factura, liquidación de compra, nota de crédito, nota de débito, guía de remisión y comprobante de retención. El SRI autoriza este perfil de firma en sus ambientes de pruebas y de producción.
 - **Firma y verifica.** Lee quién firmó un comprobante recibido y comprueba que nadie lo cambió después.
 - **Lee el certificado.** El RUC y la cédula del titular, de las catorce entidades de certificación acreditadas en Ecuador, y los archivos antiguos con RC2 o 3DES.
 - **No toca tu XML.** La firma se añade al final y cada carácter del documento queda como estaba.
@@ -60,7 +60,7 @@ Lanza un `DocumentError` cuando no puede firmar el documento, con el motivo en `
 | `"root_id"` | La raíz no lleva `id="comprobante"`. |
 | `"root_namespaces"` | La raíz declara espacios de nombres, que la firma heredaría. |
 | `"already_signed"` | Ya lleva una firma. |
-| `"trailing_content"` | Hay algo después de la etiqueta de cierre de la raíz. |
+| `"trailing_content"` | Hay un comentario o una instrucción después de la etiqueta de cierre de la raíz. |
 
 Lanza un `CertificateError` cuando no puede abrir el archivo `.p12`.
 
