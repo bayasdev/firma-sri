@@ -1,0 +1,31 @@
+# firma-sri
+
+> Signs the electronic documents (comprobantes electrónicos: factura, liquidación de compra, nota de crédito, nota de débito, guía de remisión, comprobante de retención) of Ecuador's tax authority (SRI) with a .p12 certificate, and verifies their signatures. It writes the enveloped XAdES-BES signature the SRI's ficha técnica asks for. TypeScript, ES module for Node.js 22.12 or later.
+
+Install with `npm install firma-sri`. Function names, error reasons and messages are English.
+
+```ts
+import { readFile } from "node:fs/promises";
+import { readCertificate, signXml, verifySignature } from "firma-sri";
+
+const p12 = await readFile("certificado.p12");
+const signed = signXml(xml, { p12, password }); // the same XML with the signature as the root's last child
+const { certificate, signingTime } = verifySignature(signed); // throws SignatureError
+readCertificate(p12, password).holder; // { ruc: "1792146739001" }
+```
+
+Things worth knowing before using it:
+
+- The XML's root must carry `id="comprobante"` and declare no namespaces, as the SRI's schemas have it. signXml throws a DocumentError with a `reason` otherwise, and a CertificateError with a `reason` when the .p12 can't be opened.
+- It signs with RSA-SHA1 by default, which the SRI's ficha técnica specifies. Pass `{ algorithm: "sha256" }` as the third argument for RSA-SHA256.
+- signXml doesn't check that the certificate is still valid. Use readCertificate (`notAfter`, `canSign`) for that.
+- The signing time is the server's clock in Ecuador's time (UTC-5). The SRI rejects a signature dated after its own clock, so keep the clock synchronized.
+- It doesn't build the comprobante's XML, compute the access key (clave de acceso), or send anything to the SRI.
+- `createSelfSignedCertificate` from `firma-sri/testing` makes a throwaway .p12 for tests. The SRI rejects it.
+- It runs on Node.js only (it uses node:crypto), not in the browser.
+
+## Docs
+
+- [README](https://github.com/bayasdev/firma-sri/blob/main/README.md): the full API, with an example for every function and the signature's profile (Spanish, with an English quick start)
+- [CHANGELOG](https://github.com/bayasdev/firma-sri/blob/main/CHANGELOG.md): what changed in each version
+- [Type declarations](https://unpkg.com/firma-sri/dist/index.d.ts): every export with its documentation comment

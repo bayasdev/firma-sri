@@ -1,0 +1,75 @@
+# Formatting, lint, types, tests, the build and the published package's
+# shape, on every push and pull request.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, types, tests, build and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # The tests verify the signatures with it too.
+      - run: sudo apt-get update && sudo apt-get install --yes xmlsec1
+      - run: pnpm check
+      - run: pnpm check-types
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm check-package
+
+  load:
+    # The oldest Node the package supports and the current one load the
+    # built package both ways its users do.
+    name: Load on Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        node: ["22.12", "24"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node --version
+      - name: import
+        run: node --input-type=module -e "$CHECK"
+        env:
+          CHECK: |
+            import { signXml, verifySignature } from "firma-sri";
+            import { createSelfSignedCertificate } from "firma-sri/testing";
+            const p12 = createSelfSignedCertificate({ password: "x" });
+            verifySignature(signXml('<factura id="comprobante"><a>1</a></factura>', { p12, password: "x" }));
+      - name: require
+        run: node -e "$CHECK"
+        env:
+          CHECK: |
+            const { signXml, verifySignature } = require("firma-sri");
+            const { createSelfSignedCertificate } = require("firma-sri/testing");
+            const p12 = createSelfSignedCertificate({ password: "x" });
+            verifySignature(signXml('<factura id="comprobante"><a>1</a></factura>', { p12, password: "x" }));
