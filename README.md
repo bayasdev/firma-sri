@@ -22,7 +22,7 @@ certificate.holder; // { ruc: "1792146739001" }
 - **Escrita desde las especificaciones.** La ficha técnica del SRI, XMLDSig, XAdES 1.3.2, Canonical XML 1.0 y RFC 4514, citadas junto al código.
 - **Los seis comprobantes.** Factura, liquidación de compra, nota de crédito, nota de débito, guía de remisión y comprobante de retención. El SRI autoriza este perfil de firma en sus ambientes de pruebas y de producción.
 - **Firma y verifica.** Lee quién firmó un comprobante recibido y comprueba que nadie lo cambió después.
-- **Lee el certificado.** El RUC y la cédula del titular, de las catorce entidades de certificación acreditadas en Ecuador, y los archivos antiguos con RC2 o 3DES.
+- **Lee el certificado.** El RUC y la cédula del titular, de las trece entidades de certificación acreditadas en Ecuador, y los archivos antiguos con RC2 o 3DES.
 - **No toca tu XML.** La firma se añade al final y cada carácter del documento queda como estaba.
 - **Probada con propiedades.** Documentos generados al azar, verificados con xml-crypto y con xmlsec1, y validados contra los XSD del SRI y de XAdES.
 - **Publicada con procedencia.** Cada versión sale de GitHub Actions con una declaración de procedencia de npm que puedes verificar.

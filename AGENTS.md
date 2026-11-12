@@ -8,6 +8,10 @@ The signer is written from the specifications alone, never from another implemen
 
 A change to what the signature contains is checked against the SRI's test environment (Pruebas) for all six document types before it is released.
 
+## Dependencies
+
+The runtime dependencies parse XML, check signatures and open PKCS#12 files, so they are caret ranges: whoever installs the library gets their security patches without waiting for a release here. `pnpm audit --prod` reports nothing before a release. Development dependencies are pinned exactly.
+
 ## Checks
 
 `pnpm check` (format, lint and unused code), `pnpm check-types`, `pnpm test`, `pnpm build` and `pnpm check-package` (publint and attw) pass before every commit. CI runs all of them on every push. `pnpm fix` writes the formatting and the safe fixes. Never disable a lint rule to pass it.

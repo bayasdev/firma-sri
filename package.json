@@ -61,10 +61,10 @@
     "prepublishOnly": "pnpm check && pnpm check-types && pnpm test && pnpm build && pnpm check-package"
   },
   "dependencies": {
-    "@xmldom/is-dom-node": "1.0.1",
-    "@xmldom/xmldom": "0.9.12",
-    "node-forge": "1.4.0",
-    "xml-crypto": "6.3.3"
+    "@xmldom/is-dom-node": "^1.0.1",
+    "@xmldom/xmldom": "^0.9.12",
+    "node-forge": "^1.4.3",
+    "xml-crypto": "^6.4.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
