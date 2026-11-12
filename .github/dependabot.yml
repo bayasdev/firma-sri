@@ -1,0 +1,18 @@
+# Dependabot opens a pull request when a dependency or an action has a new
+# version, and right away when one has a security fix.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      # One pull request for the tools the library is built and tested with.
+      development:
+        dependency-type: development
+    # A change to a runtime dependency gets a pull request of its own.
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
