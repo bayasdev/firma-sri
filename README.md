@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/bayasdev/firma-sri/main/.github/banner.png" alt="firma-sri: firma electrónica de comprobantes del SRI" width="720">
+</p>
+
 # firma-sri
 
 Firma comprobantes electrónicos del SRI de Ecuador con un certificado `.p12`, y verifica la firma de los que recibes.
