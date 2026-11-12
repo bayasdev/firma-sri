@@ -1,4 +1,4 @@
-import { DOMParser, XMLSerializer } from "@xmldom/xmldom";
+import { DOMParser, onErrorStopParsing, XMLSerializer } from "@xmldom/xmldom";
 import type { Element } from "@xmldom/xmldom";
 import forge from "node-forge";
 import { SignedXml } from "xml-crypto";
@@ -39,7 +39,12 @@ const rootOf = (xml: string): Element => {
   let root: Element | null;
 
   try {
-    root = new DOMParser().parseFromString(xml, "text/xml").documentElement;
+    // Anything the parser calls an error stops it, where its default is to
+    // log it and go on with what it could read.
+    root = new DOMParser({ onError: onErrorStopParsing }).parseFromString(
+      xml,
+      "text/xml"
+    ).documentElement;
   } catch (error) {
     throw new SignatureError("The XML is malformed", { cause: error });
   }

@@ -1,6 +1,6 @@
 import { createHash, createSign, randomUUID } from "node:crypto";
 import { assertIsElementNode } from "@xmldom/is-dom-node";
-import { DOMParser } from "@xmldom/xmldom";
+import { DOMParser, onErrorStopParsing } from "@xmldom/xmldom";
 import forge from "node-forge";
 import { C14nCanonicalization } from "xml-crypto";
 import { signatureIssuerName } from "./certificate-names.ts";
@@ -133,7 +133,12 @@ const parse = (xml: string) => {
   }
 
   try {
-    return new DOMParser().parseFromString(xml, "text/xml").documentElement;
+    // Anything the parser calls an error stops it, where its default is to
+    // log it and go on with what it could read.
+    return new DOMParser({ onError: onErrorStopParsing }).parseFromString(
+      xml,
+      "text/xml"
+    ).documentElement;
   } catch (error) {
     throw new DocumentError("The document is malformed", "malformed", {
       cause: error,

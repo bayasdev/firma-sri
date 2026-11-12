@@ -547,9 +547,9 @@ describe("what can't be signed", () => {
       "trailing_content",
     ],
     [
-      "a document with a stray character after its root's end tag",
+      "a document with a stray character after its root's end tag, which isn't XML",
       '<factura id="comprobante"><a>1</a></factura>!',
-      "trailing_content",
+      "malformed",
     ],
     [
       "a document whose root declares a namespace its signature would inherit",
