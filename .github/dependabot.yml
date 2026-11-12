@@ -12,6 +12,10 @@ updates:
         dependency-type: development
     # A change to a runtime dependency gets a pull request of its own.
     open-pull-requests-limit: 5
+    ignore:
+      # Node's types follow the Node in .node-version, not the newest one.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
