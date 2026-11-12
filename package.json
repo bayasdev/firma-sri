@@ -58,7 +58,7 @@
     "check-package": "publint && attw --pack . --profile esm-only",
     "fix": "ultracite fix",
     "test": "vitest run",
-    "prepublishOnly": "pnpm check && pnpm check-types && pnpm test && pnpm build && pnpm check-package"
+    "prepublishOnly": "pnpm audit --prod && pnpm check && pnpm check-types && pnpm test && pnpm build && pnpm check-package"
   },
   "dependencies": {
     "@xmldom/is-dom-node": "^1.0.1",

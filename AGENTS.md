@@ -10,7 +10,7 @@ A change to what the signature contains is checked against the SRI's test enviro
 
 ## Dependencies
 
-The runtime dependencies parse XML, check signatures and open PKCS#12 files, so they are caret ranges: whoever installs the library gets their security patches without waiting for a release here. `pnpm audit --prod` reports nothing before a release. Development dependencies are pinned exactly.
+The runtime dependencies parse XML, check signatures and open PKCS#12 files, so they are caret ranges: whoever installs the library gets their security patches without waiting for a release here. `pnpm audit --prod` reports nothing: CI and the release both run it. Development dependencies are pinned exactly.
 
 ## Checks
 
@@ -32,4 +32,4 @@ Every change reaches `main` through a pull request, merged with a squash once CI
 
 ## Releases
 
-Bump `version` in `package.json` and add its entry to `CHANGELOG.md`, then push a `vX.Y.Z` tag that matches. `.github/workflows/publish.yml` publishes it with npm's trusted publishing and a provenance statement; no token is stored anywhere. A breaking change to what any function accepts, or to what a signature contains, is a major version.
+Bump `version` in `package.json` and add its entry to `CHANGELOG.md`, then push a `vX.Y.Z` tag that matches. `.github/workflows/publish.yml` publishes it with npm's trusted publishing and a provenance statement; no token is stored anywhere. The workflow has three jobs with one permission each: the job that runs the toolchain can't publish, and the job that publishes runs none of the project's code. Every action in a workflow is pinned to a full commit SHA, with its version in a comment; Dependabot moves them. A breaking change to what any function accepts, or to what a signature contains, is a major version.
