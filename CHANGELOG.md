@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## 1.0.1
+
+Sin cambios en el código de la librería.
+
+- La licencia fecha el copyright en 2026, el año en que se publicó.
+- La publicación sale de tres trabajos con un solo permiso cada uno y espera la aprobación del autor.
+
 ## 1.0.0
 
 Primera versión.

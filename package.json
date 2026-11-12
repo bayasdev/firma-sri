@@ -1,6 +1,6 @@
 {
   "name": "firma-sri",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Firma electrónica XAdES-BES de comprobantes electrónicos del SRI de Ecuador con un certificado .p12, y verificación de la firma. Sign and verify Ecuador SRI electronic invoices (XAdES-BES). TypeScript.",
   "keywords": [
     "comprobantes electronicos",
